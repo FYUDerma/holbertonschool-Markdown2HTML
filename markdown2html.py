@@ -21,10 +21,26 @@ def convert_markdown_to_html(markdown_text):
     """Convert Markdown text to HTML."""
     html_lines = []
     lines = markdown_text.splitlines()
+    in_list = False
 
     for line in lines:
         line = line.strip()
         """Convert Markdown links to HTML links."""
+        if line.startswith('-'):
+            """
+            Convert Markdown lists to unordered lists.
+            Each line starting with '-' is treated as a list item.
+            """
+            if not in_list:
+                html_lines.append("<ul>")
+                in_list = True
+            item = line.lstrip('-').strip()
+            html_lines.append(f"<li>{item}</li>")
+        else:
+            if in_list:
+                html_lines.append("</ul>")
+                in_list = False
+
         if line.startswith('#'):
             """
             Convert Markdown headers to HTML headers.
@@ -33,6 +49,10 @@ def convert_markdown_to_html(markdown_text):
             level = len(line) - len(line.lstrip('#'))
             content = line.lstrip('#').strip()
             html_lines.append(f"<h{level}>{content}</h{level}>")
+
+    if in_list:
+        html_lines.append("</ul>")
+
     return "\n".join(html_lines)
 
 
