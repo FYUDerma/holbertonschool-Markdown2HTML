@@ -22,22 +22,16 @@ def main(input_file, output_file):
     Main function to handle Markdown to HTML conversion.
     """
 
-    # Check if the number of arguments is correct
     if len(sys.argv) != 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
         sys.exit(1)
 
-    # Input and output file variables
     input_file = sys.argv[1]
     output_file = sys.argv[2]
 
-    # Check if the input file exists
     if not os.path.isfile(input_file):
         sys.stderr.write(f"Missing {input_file}\n")
         sys.exit(1)
-
-    # Placeholder for Markdown to HTML conversion logic
-    # (To be implemented)
 
     sys.exit(0)
 
