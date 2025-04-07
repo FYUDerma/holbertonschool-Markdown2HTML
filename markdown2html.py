@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 markdown2html.py
 
@@ -22,7 +22,7 @@ def main():
     Main function to handle Markdown to HTML conversion.
     """
 
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 2:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
         sys.exit(1)
 
