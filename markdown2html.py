@@ -21,6 +21,7 @@ def main(input_file, output_file):
     """
     Main function to handle Markdown to HTML conversion.
     """
+
     # Check if the number of arguments is correct
     if len(sys.argv) != 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
