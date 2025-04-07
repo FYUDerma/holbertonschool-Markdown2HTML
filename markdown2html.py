@@ -33,6 +33,7 @@ def main():
         sys.stderr.write(f"Missing {input_file}\n")
         sys.exit(1)
     else:
+        print()
         sys.exit(0)
 
 
