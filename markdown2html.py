@@ -17,7 +17,7 @@ import sys
 import os
 
 
-def main(input_file, output_file):
+def main():
     """
     Main function to handle Markdown to HTML conversion.
     """
