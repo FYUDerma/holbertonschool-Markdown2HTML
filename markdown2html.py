@@ -21,7 +21,7 @@ def convert_markdown_to_html(markdown_text):
     """Convert Markdown text to HTML."""
     html_lines = []
     lines = markdown_text.splitlines()
-    
+
     for line in lines:
         line = line.strip()
         """Convert Markdown links to HTML links."""
@@ -34,6 +34,7 @@ def convert_markdown_to_html(markdown_text):
             content = line.lstrip('#').strip()
             html_lines.append(f"<h{level}>{content}</h{level}>")
     return "\n".join(html_lines)
+
 
 def main():
     """
@@ -58,7 +59,7 @@ def main():
 
         with open(output_file, 'w') as f:
             f.write(html_output)
-        
+
         sys.exit(0)
     except Exception as e:
         sys.stderr.write(f"Error: {e}\n")
