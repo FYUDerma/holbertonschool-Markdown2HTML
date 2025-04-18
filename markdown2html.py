@@ -30,7 +30,7 @@ def convert_markdown_to_html(markdown_text):
     # Flags variables
     unorganize_list = False
     organize_list = False
-    break_flag = False
+    paragraph_flag = False
 
     for line in lines:
         line = line.strip()
@@ -77,21 +77,24 @@ def convert_markdown_to_html(markdown_text):
         if there is two line without any special character, a <br/> is added.
         """
         if line and not line.startswith(('-', '*', '#')):
-            if break_flag:
-                html_lines.append(f"<p>{line}</p>")
-                html_lines.append("<br/>")
-                break_flag = False
+            if not paragraph_flag:
+                html_lines.append("<p>")
+                paragraph_flag = True
             else:
-                html_lines.append(f"<p>{line}</p>")
-                break_flag = True
-
-        if line == "":
-            html_lines.append(" ")
+                html_lines.append("<br/>")
+            html_lines.append(line)
+        elif line == "":
+            if paragraph_flag:
+                html_lines.append("</p>")
+                paragraph_flag = False
 
     if unorganize_list:
         html_lines.append("</ul>")
     if organize_list:
         html_lines.append("</ol>")
+    if paragraph_flag:
+        html_lines.append("</p>")
+
 
     return "\n".join(html_lines)
 
