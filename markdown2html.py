@@ -95,7 +95,6 @@ def convert_markdown_to_html(markdown_text):
     if paragraph_flag:
         html_lines.append("</p>")
 
-
     return "\n".join(html_lines)
 
 
