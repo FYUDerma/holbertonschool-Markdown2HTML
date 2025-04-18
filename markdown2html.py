@@ -9,6 +9,11 @@ This script converts a Markdown file into an HTML file. It takes two arguments:
 Usage:
     ./markdown2html.py input_file.md output_file.html
 
+Case:
+    - Unordered list
+    - Ordered list
+    - Headers
+
 The script checks if the input file exist and write the converted HTML content
 to the specified output file. If the input file is missing or the arguments are
 incorrect, it exits with an error message.
@@ -25,6 +30,7 @@ def convert_markdown_to_html(markdown_text):
     # Flags variables
     unorganize_list = False
     organize_list = False
+    break_flag = False
 
     for line in lines:
         line = line.strip()
@@ -56,6 +62,7 @@ def convert_markdown_to_html(markdown_text):
             if organize_list:
                 html_lines.append("</ol>")
                 organize_list = False
+
         """
         If the line starts with '#', it is considered a header.
         The number of '#' characters indicates the header level.
@@ -64,6 +71,22 @@ def convert_markdown_to_html(markdown_text):
             level = len(line) - len(line.lstrip('#'))
             content = line.lstrip('#').strip()
             html_lines.append(f"<h{level}>{content}</h{level}>")
+
+        """
+        if the line starts with no character, it is considered a paragraph.
+        if there is two line without any special character, a <br/> is added.
+        """
+        if line and not line.startswith(('-', '*', '#')):
+            if break_flag:
+                html_lines.append(f"<p>{line}</p>")
+                html_lines.append("<br/>")
+                break_flag = False
+            else:
+                html_lines.append(f"<p>{line}</p>")
+                break_flag = True
+
+        if line == "":
+            html_lines.append(" ")
 
     if unorganize_list:
         html_lines.append("</ul>")
