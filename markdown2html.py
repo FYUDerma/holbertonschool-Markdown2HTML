@@ -21,37 +21,54 @@ def convert_markdown_to_html(markdown_text):
     """Convert Markdown text to HTML."""
     html_lines = []
     lines = markdown_text.splitlines()
-    in_list = False
+
+    # Flags variables
+    unorganize_list = False
+    organize_list = False
 
     for line in lines:
         line = line.strip()
-        """Convert Markdown links to HTML links."""
+
+        """
+        If the line starts with '-', it is considered an unordered list item.
+        """
         if line.startswith('-'):
-            """
-            Convert Markdown lists to unordered lists.
-            Each line starting with '-' is treated as a list item.
-            """
-            if not in_list:
+            if not unorganize_list:
                 html_lines.append("<ul>")
-                in_list = True
+                unorganize_list = True
             item = line.lstrip('-').strip()
             html_lines.append(f"<li>{item}</li>")
         else:
-            if in_list:
+            if unorganize_list:
                 html_lines.append("</ul>")
-                in_list = False
+                unorganize_list = False
 
+        """
+        If the line starts with '*', it is considered an ordered list item.
+        """
+        if line.startswith('*'):
+            if not organize_list:
+                html_lines.append("<ol>")
+                organize_list = True
+            item = line.lstrip('*').strip()
+            html_lines.append(f"<li>{item}</li>")
+        else:
+            if organize_list:
+                html_lines.append("</ol>")
+                organize_list = False
+        """
+        If the line starts with '#', it is considered a header.
+        The number of '#' characters indicates the header level.
+        """
         if line.startswith('#'):
-            """
-            Convert Markdown headers to HTML headers.
-            The number of '#' characters indicates the header level.
-            """
             level = len(line) - len(line.lstrip('#'))
             content = line.lstrip('#').strip()
             html_lines.append(f"<h{level}>{content}</h{level}>")
 
-    if in_list:
+    if unorganize_list:
         html_lines.append("</ul>")
+    if organize_list:
+        html_lines.append("</ol>")
 
     return "\n".join(html_lines)
 
